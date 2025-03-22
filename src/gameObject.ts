@@ -1,11 +1,22 @@
+import { Border } from "@/components/border";
+import { Dimensions } from "@/components/dimensions";
 import { Transform } from "@/components/transform";
 import { clone, uniqueId } from "lodash";
-import { Game } from "@/game";
-import { Dimensions } from "@/components/dimensions";
-import { Border } from "@/components/border";
+import { Container } from "pixi.js";
+
+type GameObjectProps = {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  border?: {
+    color: number;
+    width: number;
+  };
+};
 
 export class GameObject {
-  private readonly _game: Game;
+  private readonly _pixiContainer: Container;
   private _children: GameObject[] = [];
   private _parent: GameObject | null = null;
   private _id = uniqueId("game-object-");
@@ -14,29 +25,22 @@ export class GameObject {
   readonly dimensions: Dimensions;
   readonly border: Border;
 
-  constructor({
-    game,
-    x = 0,
-    y = 0,
-    width = 0,
-    height = 0,
-    border = {
-      color: 0,
-      width: 0,
-    },
-  }: {
-    game: Game;
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-    border?: {
-      color: number;
-      width: number;
-    };
-  }) {
-    this._game = game;
+  constructor(props?: GameObjectProps) {
+    const {
+      x = 0,
+      y = 0,
+      width = 0,
+      height = 0,
+      border = {
+        color: 0,
+        width: 0,
+      },
+    } = props || {};
+
+    this._pixiContainer = new Container();
+
     this.transform = new Transform({
+      pixiContainer: this._pixiContainer,
       x,
       y,
     });
@@ -84,9 +88,17 @@ export class GameObject {
   append(child: GameObject) {
     child.setParent(this);
     this._children.push(child);
+
+    this._pixiContainer.addChild(child._pixiContainer);
+    child._pixiContainer.label = child.id;
   }
 
-  private removeChild(child: GameObject) {
+  removeChild(child: GameObject) {
     this._children = this._children.filter((c) => c.id !== child.id);
+    this._pixiContainer.removeChild(child._pixiContainer);
+  }
+
+  get pixiContainer() {
+    return this._pixiContainer;
   }
 }

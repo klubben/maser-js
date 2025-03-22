@@ -1,7 +1,12 @@
 import { Game } from "@/game";
+import { MockTicker } from "@/testUtils/mockTicker";
 
-export const createTestGame = async (): Promise<Game> => {
+export const createTestGame = async (): Promise<{
+  game: Game;
+  ticker: MockTicker;
+}> => {
   return new Promise((resolve) => {
+    const ticker = new MockTicker();
     new Game({
       renderer: "headless",
       width: 800,
@@ -10,9 +15,10 @@ export const createTestGame = async (): Promise<Game> => {
         mode: "fit",
         autoCenter: "both",
       },
+      ticker,
       autofocus: false,
       onReady: (game) => {
-        resolve(game);
+        resolve({ game, ticker });
       },
     });
   });

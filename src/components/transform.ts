@@ -1,21 +1,32 @@
-export class Transform {
-  private _x: number;
-  private _y: number;
+import { Container } from "pixi.js";
 
-  constructor({ x, y }: { x: number; y: number }) {
-    this._x = x;
-    this._y = y;
+export class Transform {
+  private _pixiContainer: Container;
+
+  constructor({
+    x,
+    y,
+    pixiContainer,
+  }: {
+    x: number;
+    y: number;
+    pixiContainer: Container;
+  }) {
+    this._pixiContainer = pixiContainer;
+    this.x = x;
+    this.y = y;
   }
 
   getGlobalPosition() {
-    return { x: this.x, y: this.y };
+    const position = this._pixiContainer.getGlobalPosition();
+    return { x: position.x, y: position.y };
   }
 
   setGlobalPosition({ x, y }: { x: number; y: number }) {
-    const bounds = this.getGlobalPosition();
+    const position = this.getGlobalPosition();
     const offset = {
-      x: bounds.x - this.x,
-      y: bounds.y - this.y,
+      x: position.x - this.x,
+      y: position.y - this.y,
     };
 
     this.x = x - offset.x;
@@ -23,18 +34,18 @@ export class Transform {
   }
 
   get x() {
-    return this._x;
+    return this._pixiContainer.x;
   }
 
   get y() {
-    return this._y;
+    return this._pixiContainer.y;
   }
 
   set x(value: number) {
-    this._x = value;
+    this._pixiContainer.x = value;
   }
 
   set y(value: number) {
-    this._y = value;
+    this._pixiContainer.y = value;
   }
 }

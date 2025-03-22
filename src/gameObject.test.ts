@@ -1,26 +1,18 @@
-import { beforeAll, describe, expect, it } from "vitest";
 import { GameObject } from "@/gameObject";
-import { Game } from "@/game";
-import { createTestGame } from "@/testUtils/createTestGame";
-
-let game: Game;
-
-beforeAll(async () => {
-  game = await createTestGame();
-});
+import { describe, expect, it } from "vitest";
 
 describe("GameObject nesting", () => {
   it("should have id", () => {
-    const gameObject = new GameObject({ game });
-    const gameObject2 = new GameObject({ game });
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
 
     expect(gameObject.id).toBe("game-object-1");
     expect(gameObject2.id).toBe("game-object-2");
   });
 
   it("should be able to append other gameObjectes", () => {
-    const gameObject = new GameObject({ game });
-    const gameObject2 = new GameObject({ game });
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
 
     expect(async () => {
       gameObject.append(gameObject2);
@@ -28,8 +20,8 @@ describe("GameObject nesting", () => {
   });
 
   it("should return children", () => {
-    const gameObject = new GameObject({ game });
-    const gameObject2 = new GameObject({ game });
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
     gameObject.append(gameObject2);
 
     expect(gameObject.getChildren()).toHaveLength(1);
@@ -38,21 +30,21 @@ describe("GameObject nesting", () => {
   });
 
   it("should have parent when attached", () => {
-    const gameObject = new GameObject({ game });
-    const gameObject2 = new GameObject({ game });
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
     gameObject.append(gameObject2);
 
     expect(gameObject2.getParent()).toBe(gameObject);
   });
 
   it("should change parent when reattached", () => {
-    const gameObject = new GameObject({ game });
-    const gameObject2 = new GameObject({ game });
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
 
     gameObject.append(gameObject2);
     expect(gameObject2.getParent()).toBe(gameObject);
 
-    const gameObject3 = new GameObject({ game });
+    const gameObject3 = new GameObject();
 
     gameObject3.append(gameObject2);
 
@@ -61,9 +53,9 @@ describe("GameObject nesting", () => {
   });
 
   it("should have parents array", () => {
-    const gameObject = new GameObject({ game });
-    const gameObject2 = new GameObject({ game });
-    const gameObject3 = new GameObject({ game });
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
+    const gameObject3 = new GameObject();
 
     gameObject.append(gameObject2);
     gameObject2.append(gameObject3);
