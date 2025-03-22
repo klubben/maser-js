@@ -1,0 +1,44 @@
+{
+  "name": "maserjs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build",
+    "lint-staged": "lint-staged",
+    "lint": "eslint -c eslint.config.mjs",
+    "test": "vitest --run ./",
+    "test:watch": "vitest ./",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc -w --noEmit",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/jsdom": "^21.1.7",
+    "@types/lodash": "^4.17.13",
+    "@types/node": "^22.10.5",
+    "eslint": "^9.17.0",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "lint-staged": "^15.2.11",
+    "prettier": "3.4.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "vite": "^6.0.9",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.8",
+    "vitest-canvas-mock": "^0.3.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint -c eslint.config.mjs --max-warnings 0",
+      "prettier --write"
+    ]
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
