@@ -6,5 +6,8 @@ export const labels = {
     border: {
       graphics: "/border/graphics",
     },
+    backgroundImage: {
+      sprite: "/background-image/graphics",
+    },
   },
 };

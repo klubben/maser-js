@@ -1,4 +1,8 @@
 import { BackgroundColor } from "@/components/backgroundColor";
+import {
+  BackgroundImage,
+  BackgroundImageOptions,
+} from "@/components/backgroundImage";
 import { Border } from "@/components/border";
 import { Dimensions } from "@/components/dimensions";
 import { Transform } from "@/components/transform";
@@ -15,6 +19,7 @@ type GameObjectProps = {
     width: number;
   };
   backgroundColor?: number;
+  backgroundImage?: BackgroundImageOptions;
 };
 
 export class GameObject {
@@ -27,6 +32,7 @@ export class GameObject {
   readonly dimensions: Dimensions;
   readonly border: Border;
   readonly backgroundColor: BackgroundColor;
+  readonly backgroundImage: BackgroundImage;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -39,6 +45,7 @@ export class GameObject {
         width: 0,
       },
       backgroundColor = null,
+      backgroundImage = null,
     } = props || {};
 
     this._pixiContainer = new Container();
@@ -66,6 +73,12 @@ export class GameObject {
       container: this._pixiContainer,
       dimensions: this.dimensions,
       color: backgroundColor,
+    });
+
+    this.backgroundImage = new BackgroundImage({
+      container: this._pixiContainer,
+      dimensions: this.dimensions,
+      options: backgroundImage,
     });
   }
 
