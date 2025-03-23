@@ -32,8 +32,9 @@ export class Game {
         width,
         height,
         antialias: true,
-        resolution: 1,
+        resolution: window.devicePixelRatio,
         backgroundColor: background ?? 0x05deff,
+        autoDensity: true,
       })
       .then(() => {
         if (parent) {
