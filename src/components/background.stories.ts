@@ -1,5 +1,5 @@
 import { GameObject } from "@/gameObject";
-import { createStorybookGame } from "@/stories/createStorybookGame";
+import { createStorybookGame } from "@/testUtils/createStorybookGame";
 import { parseHexColor } from "@/utils/parseHexColor";
 import type { Meta, StoryObj } from "@storybook/html";
 
