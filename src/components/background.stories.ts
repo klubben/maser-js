@@ -1,5 +1,6 @@
 import { GameObject } from "@/gameObject";
 import { createStorybookGame } from "@/stories/createStorybookGame";
+import { parseHexColor } from "@/utils/parseHexColor";
 import type { Meta, StoryObj } from "@storybook/html";
 
 const meta: Meta = {
@@ -13,19 +14,15 @@ const meta: Meta = {
 
 export default meta;
 
-export const Border: StoryObj<{ color: string; width: number }> = {
+export const BackgroundColor: StoryObj<{ color: string }> = {
   args: {
     color: "#ff0000",
-    width: 10,
   },
   render: (args) => {
-    const { color, width } = args;
+    const { color } = args;
     return createStorybookGame((game) => {
       const go = new GameObject({
-        border: {
-          color: Number(color.replace("#", "0x")),
-          width,
-        },
+        backgroundColor: parseHexColor(color),
         width: 100,
         height: 100,
         x: 100,

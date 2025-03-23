@@ -1,3 +1,4 @@
+import { BackgroundColor } from "@/components/backgroundColor";
 import { Border } from "@/components/border";
 import { Dimensions } from "@/components/dimensions";
 import { Transform } from "@/components/transform";
@@ -13,6 +14,7 @@ type GameObjectProps = {
     color: number;
     width: number;
   };
+  backgroundColor?: number;
 };
 
 export class GameObject {
@@ -24,6 +26,7 @@ export class GameObject {
   readonly transform: Transform;
   readonly dimensions: Dimensions;
   readonly border: Border;
+  readonly backgroundColor: BackgroundColor;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -35,9 +38,11 @@ export class GameObject {
         color: 0,
         width: 0,
       },
+      backgroundColor = null,
     } = props || {};
 
     this._pixiContainer = new Container();
+    this._pixiContainer.label = this._id;
 
     this.transform = new Transform({
       pixiContainer: this._pixiContainer,
@@ -55,6 +60,12 @@ export class GameObject {
       dimensions: this.dimensions,
       color: border.color,
       width: border.width,
+    });
+
+    this.backgroundColor = new BackgroundColor({
+      container: this._pixiContainer,
+      dimensions: this.dimensions,
+      color: backgroundColor,
     });
   }
 
@@ -92,7 +103,6 @@ export class GameObject {
     this._children.push(child);
 
     this._pixiContainer.addChild(child._pixiContainer);
-    child._pixiContainer.label = child.id;
   }
 
   removeChild(child: GameObject) {

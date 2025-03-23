@@ -2,32 +2,28 @@ import { Dimensions } from "@/components/dimensions";
 import { labels } from "@/components/labels";
 import { Container, Graphics } from "pixi.js";
 
-export class Border {
-  private _width = 0;
-  private _color = 0;
-  private _graphics: Graphics | null = null;
+export class BackgroundColor {
   private _container: Container;
   private _dimensions: Dimensions;
+  private _graphics: Graphics | null = null;
+  private _color: number | null = null;
 
   constructor({
-    width,
-    color,
     container,
     dimensions,
+    color,
   }: {
-    width: number;
-    color: number;
     container: Container;
     dimensions: Dimensions;
+    color: number | null;
   }) {
     this._container = container;
     this._dimensions = dimensions;
     this.color = color;
-    this.width = width;
   }
 
   private _updateGraphics() {
-    if (this.width === 0) {
+    if (this.color === null) {
       if (this._graphics) {
         this._graphics.destroy();
         this._graphics = null;
@@ -37,34 +33,24 @@ export class Border {
 
     if (!this._graphics) {
       this._graphics = new Graphics();
-      this._graphics.label = `${this._container.label}${labels.gameObject.border.graphics}`;
+      this._graphics.label = `${this._container.label}${labels.gameObject.backgroundColor.graphics}`;
       this._container.addChild(this._graphics);
     }
 
     this._graphics
       .clear()
       .rect(0, 0, this._dimensions.width, this._dimensions.height)
-      .stroke({
-        width: this.width,
+      .fill({
         color: this.color,
       });
   }
 
-  get width() {
-    return this._width;
+  set color(value: number | null) {
+    this._color = value;
+    this._updateGraphics();
   }
 
   get color() {
     return this._color;
-  }
-
-  set width(value: number) {
-    this._width = value;
-    this._updateGraphics();
-  }
-
-  set color(value: number) {
-    this._color = value;
-    this._updateGraphics();
   }
 }
