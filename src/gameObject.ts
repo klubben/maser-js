@@ -51,6 +51,8 @@ export class GameObject {
     });
 
     this.border = new Border({
+      container: this._pixiContainer,
+      dimensions: this.dimensions,
       color: border.color,
       width: border.width,
     });
