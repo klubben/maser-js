@@ -5,6 +5,7 @@ import {
 } from "@/components/backgroundImage";
 import { Border } from "@/components/border";
 import { Dimensions } from "@/components/dimensions";
+import { GameObjectEvents } from "@/components/gameObjectEvents";
 import { Transform } from "@/components/transform";
 import { clone, uniqueId } from "lodash";
 import { Container } from "pixi.js";
@@ -28,6 +29,7 @@ export class GameObject {
   private _parent: GameObject | null = null;
   private _id = uniqueId("game-object-");
 
+  readonly events: GameObjectEvents;
   readonly transform: Transform;
   readonly dimensions: Dimensions;
   readonly border: Border;
@@ -51,6 +53,8 @@ export class GameObject {
     this._pixiContainer = new Container();
     this._pixiContainer.label = this._id;
 
+    this.events = new GameObjectEvents();
+
     this.transform = new Transform({
       pixiContainer: this._pixiContainer,
       x,
@@ -58,11 +62,13 @@ export class GameObject {
     });
 
     this.dimensions = new Dimensions({
+      events: this.events,
       width,
       height,
     });
 
     this.border = new Border({
+      events: this.events,
       container: this._pixiContainer,
       dimensions: this.dimensions,
       color: border.color,

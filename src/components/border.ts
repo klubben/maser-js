@@ -1,4 +1,5 @@
 import { Dimensions } from "@/components/dimensions";
+import { GameObjectEvents } from "@/components/gameObjectEvents";
 import { labels } from "@/components/labels";
 import { Container, Graphics } from "pixi.js";
 
@@ -14,16 +15,19 @@ export class Border {
     color,
     container,
     dimensions,
+    events,
   }: {
     width: number;
     color: number;
     container: Container;
     dimensions: Dimensions;
+    events: GameObjectEvents;
   }) {
     this._container = container;
     this._dimensions = dimensions;
     this.color = color;
     this.width = width;
+    events.on("resize", this._updateGraphics.bind(this));
   }
 
   private _updateGraphics() {
