@@ -4,6 +4,7 @@ import {
   BackgroundImageOptions,
 } from "@/components/backgroundImage";
 import { Border } from "@/components/border";
+import { Bounds } from "@/components/bounds";
 import { Crop } from "@/components/crop";
 import { Dimensions } from "@/components/dimensions";
 import { GameObjectEvents } from "@/components/gameObjectEvents";
@@ -38,6 +39,7 @@ export class GameObject {
   readonly backgroundColor: BackgroundColor;
   readonly backgroundImage: BackgroundImage;
   readonly crop: Crop;
+  readonly bounds: Bounds;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -95,6 +97,12 @@ export class GameObject {
       isActive: isCropped,
       dimensions: this.dimensions,
       events: this.events,
+      container: this._pixiContainer,
+    });
+
+    this.bounds = new Bounds({
+      dimensions: this.dimensions,
+      transform: this.transform,
       container: this._pixiContainer,
     });
   }
