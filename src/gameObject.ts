@@ -4,6 +4,7 @@ import {
   BackgroundImageOptions,
 } from "@/components/backgroundImage";
 import { Border } from "@/components/border";
+import { Crop } from "@/components/crop";
 import { Dimensions } from "@/components/dimensions";
 import { GameObjectEvents } from "@/components/gameObjectEvents";
 import { Transform } from "@/components/transform";
@@ -21,6 +22,7 @@ type GameObjectProps = {
   };
   backgroundColor?: number;
   backgroundImage?: BackgroundImageOptions;
+  isCropped?: boolean;
 };
 
 export class GameObject {
@@ -35,6 +37,7 @@ export class GameObject {
   readonly border: Border;
   readonly backgroundColor: BackgroundColor;
   readonly backgroundImage: BackgroundImage;
+  readonly crop: Crop;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -48,6 +51,7 @@ export class GameObject {
       },
       backgroundColor = null,
       backgroundImage = null,
+      isCropped = false,
     } = props || {};
 
     this._pixiContainer = new Container();
@@ -85,6 +89,13 @@ export class GameObject {
       container: this._pixiContainer,
       dimensions: this.dimensions,
       options: backgroundImage,
+    });
+
+    this.crop = new Crop({
+      isActive: isCropped,
+      dimensions: this.dimensions,
+      events: this.events,
+      container: this._pixiContainer,
     });
   }
 
