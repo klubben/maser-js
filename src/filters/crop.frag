@@ -1,4 +1,4 @@
-# crop.frag
+# define name="crop.frag"
 in vec2 vTextureCoord;
 in vec4 vColor;
 in vec2 vFilterCoord;
