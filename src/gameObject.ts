@@ -8,6 +8,7 @@ import { Bounds } from "@/components/bounds";
 import { Crop } from "@/components/crop";
 import { Dimensions } from "@/components/dimensions";
 import { GameObjectEvents } from "@/components/gameObjectEvents";
+import { Mask } from "@/components/mask";
 import { Transform } from "@/components/transform";
 import { clone, uniqueId } from "lodash";
 import { Container } from "pixi.js";
@@ -23,6 +24,7 @@ type GameObjectProps = {
   };
   backgroundColor?: number;
   backgroundImage?: BackgroundImageOptions;
+  mask?: BackgroundImageOptions;
   isCropped?: boolean;
 };
 
@@ -38,6 +40,7 @@ export class GameObject {
   readonly border: Border;
   readonly backgroundColor: BackgroundColor;
   readonly backgroundImage: BackgroundImage;
+  readonly mask: Mask;
   readonly crop: Crop;
   readonly bounds: Bounds;
 
@@ -53,6 +56,7 @@ export class GameObject {
       },
       backgroundColor = null,
       backgroundImage = null,
+      mask = null,
       isCropped = false,
     } = props || {};
 
@@ -91,6 +95,12 @@ export class GameObject {
       container: this._pixiContainer,
       dimensions: this.dimensions,
       options: backgroundImage,
+    });
+
+    this.mask = new Mask({
+      container: this._pixiContainer,
+      dimensions: this.dimensions,
+      options: mask,
     });
 
     this.crop = new Crop({
@@ -139,8 +149,8 @@ export class GameObject {
   append(child: GameObject) {
     child.setParent(this);
     this._children.push(child);
-
     this._pixiContainer.addChild(child._pixiContainer);
+    this.events.emit("appendToParent");
   }
 
   removeChild(child: GameObject) {

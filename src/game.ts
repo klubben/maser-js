@@ -3,6 +3,7 @@ import { Application } from "pixi.js";
 
 export class Game {
   private readonly _pixiApp: Application;
+  private readonly root: GameObject;
 
   constructor({
     onReady,
@@ -44,13 +45,22 @@ export class Game {
           onReady(this);
         }
       });
+
+    this.root = new GameObject({
+      x: 0,
+      y: 0,
+      width,
+      height,
+      backgroundColor: background,
+    });
+    this._pixiApp.stage.addChild(this.root.pixiContainer);
   }
 
   get pixiApp() {
     return this._pixiApp;
   }
 
-  append(object: GameObject) {
-    this._pixiApp.stage.addChild(object.pixiContainer);
+  append(child: GameObject) {
+    this.root.append(child);
   }
 }

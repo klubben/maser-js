@@ -35,16 +35,23 @@ export type BackgroundImageProps = {
 };
 
 export class BackgroundImage {
-  private _container: Container;
+  protected _container: Container;
   private readonly _dimensions: Dimensions;
   private _options: BackgroundImageOptions | null = null;
-  private _sprite: Sprite | null = null;
+  protected _sprite: Sprite | null = null;
   private _texture: Texture | null = null;
 
   constructor({ options, container, dimensions }: BackgroundImageProps) {
     this._container = container;
     this._dimensions = dimensions;
     this.set(options);
+  }
+
+  protected _createSprite() {
+    this._sprite = new Sprite();
+    this._sprite.zIndex = -1;
+    this._sprite.label = labels.gameObject.backgroundImage.sprite;
+    this._container.addChildAt(this._sprite, 0);
   }
 
   private _update() {
@@ -60,9 +67,7 @@ export class BackgroundImage {
     }
 
     if (!this._sprite) {
-      this._sprite = new Sprite();
-      this._sprite.label = labels.gameObject.backgroundImage.sprite;
-      this._container.addChildAt(this._sprite, 0);
+      this._createSprite();
     }
 
     Assets.load(options.src).then((texture: Texture) => {

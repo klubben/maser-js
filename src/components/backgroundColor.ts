@@ -33,6 +33,7 @@ export class BackgroundColor {
 
     if (!this._graphics) {
       this._graphics = new Graphics();
+      this._graphics.zIndex = -2;
       this._graphics.label = `${this._container.label}${labels.gameObject.backgroundColor.graphics}`;
       this._container.addChild(this._graphics);
     }
