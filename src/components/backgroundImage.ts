@@ -1,31 +1,32 @@
 import { Dimensions } from "@/components/dimensions";
 import { labels } from "@/components/labels";
-import { Assets, Container, Sprite } from "pixi.js";
+import { Assets, Container, Sprite, Texture } from "pixi.js";
 
-type SizePosition = {
-  position?: {
-    x: number | "center" | "left" | "right";
-    y: number | "center" | "top" | "bottom";
-  };
+type PositionUnits = string;
+type PositionPixels = number;
+
+type Position = {
+  x: PositionPixels | PositionUnits | "center" | "left" | "right";
+  y: PositionPixels | PositionUnits | "center" | "top" | "bottom";
 };
 
-type SizePercentage = {
-  size?: "percentage";
-  vertical?: number;
-  horizontal?: number;
-} & SizePosition;
+type SizeUnits = {
+  width: string;
+  height: string;
+};
 
-type SizeFit = {
-  size?: "cover" | "contain" | "resizeGameObject";
-} & SizePosition;
+type SizePixels = {
+  width: number;
+  height: number;
+};
 
-type SizeAuto = {
-  size?: "auto";
-} & SizePosition;
+type Size = "cover" | "contain" | "resizeGameObject" | SizeUnits | SizePixels;
 
 export type BackgroundImageOptions = {
   src: string;
-} & (SizePercentage | SizeAuto | SizeFit);
+  size?: Size;
+  position?: Position;
+};
 
 export type BackgroundImageProps = {
   options: BackgroundImageOptions | null;
@@ -35,9 +36,10 @@ export type BackgroundImageProps = {
 
 export class BackgroundImage {
   private _container: Container;
-  private _dimensions: Dimensions;
+  private readonly _dimensions: Dimensions;
   private _options: BackgroundImageOptions | null = null;
   private _sprite: Sprite | null = null;
+  private _texture: Texture | null = null;
 
   constructor({ options, container, dimensions }: BackgroundImageProps) {
     this._container = container;
@@ -63,84 +65,135 @@ export class BackgroundImage {
       this._container.addChildAt(this._sprite, 0);
     }
 
-    Assets.load(options.src).then((texture) => {
+    Assets.load(options.src).then((texture: Texture) => {
       const sprite = this._sprite!;
       sprite!.texture = texture;
-
-      switch (options.size) {
-        case "cover":
-          sprite.scale.set(
-            Math.max(
-              this._dimensions.width / texture["baseTexture"].width,
-              this._dimensions.height / texture["baseTexture"].height,
-            ),
-          );
-          break;
-
-        case "contain":
-          sprite.scale.set(
-            Math.min(
-              this._dimensions.width / texture["baseTexture"].width,
-              this._dimensions.height / texture["baseTexture"].height,
-            ),
-          );
-          break;
-
-        case "percentage":
-          sprite.width =
-            (this._dimensions.width * (options.horizontal ?? 1)) / 100;
-          sprite.height =
-            (this._dimensions.height * (options.vertical ?? 1)) / 100;
-          break;
-
-        case "resizeGameObject":
-          this._dimensions.set(
-            texture["baseTexture"].width,
-            texture["baseTexture"].height,
-          );
-          break;
-      }
-
-      switch (options.position?.x) {
-        case "left":
-          sprite.x = 0;
-          break;
-
-        case "center":
-          sprite.x = (this._dimensions.width - sprite.width) / 2;
-          break;
-
-        case "right":
-          sprite.x = this._dimensions.width - sprite.width;
-          break;
-
-        default:
-          if (typeof options.position?.x === "number") {
-            sprite.x = options.position?.x;
-          }
-          break;
-      }
-
-      switch (options.position?.y) {
-        case "top":
-          sprite.y = 0;
-          break;
-
-        case "center":
-          sprite.y = (this._dimensions.height - sprite.height) / 2;
-          break;
-
-        case "bottom":
-          sprite.y = this._dimensions.height - sprite.height;
-          break;
-
-        default:
-          if (typeof options.position?.y === "number") {
-            sprite.y = options.position?.y;
-          }
-          break;
-      }
+      this._texture = texture;
+      this._setSize();
+      this._setPosition();
     });
+  }
+
+  private _cover() {
+    if (this._sprite && this._texture) {
+      this._sprite.scale.set(
+        Math.max(
+          this._dimensions.width / this._texture.source.width,
+          this._dimensions.height / this._texture.source.height,
+        ),
+      );
+    }
+  }
+
+  private _contain() {
+    if (this._sprite && this._texture) {
+      this._sprite.scale.set(
+        Math.min(
+          this._dimensions.width / this._texture.source.width,
+          this._dimensions.height / this._texture.source.height,
+        ),
+      );
+    }
+  }
+
+  private _resizeGameObject() {
+    if (this._sprite && this._texture) {
+      this._dimensions.set(
+        this._texture.source.width,
+        this._texture.source.height,
+      );
+    }
+  }
+
+  private _setSizeUnits() {
+    if (this._sprite && this._texture) {
+      const size = this._options?.size as SizeUnits;
+      if (size.width.includes("%")) {
+        this._sprite.width =
+          (this._dimensions.width * parseInt(size.width)) / 100;
+        this._sprite.height =
+          (this._dimensions.height * parseInt(size.height)) / 100;
+      } else {
+        this._sprite.width = parseInt(size.width);
+        this._sprite.height = parseInt(size.height);
+      }
+    }
+  }
+
+  private _setSize() {
+    if (this._options?.size === "cover") {
+      this._cover();
+    }
+
+    if (this._options?.size === "contain") {
+      this._contain();
+    }
+
+    if (this._options?.size === "resizeGameObject") {
+      this._resizeGameObject();
+    }
+
+    if (typeof this._options?.size === "object") {
+      this._setSizeUnits();
+    }
+  }
+
+  private _setEdgePosition(edge: "x" | "y") {
+    const dimension = edge === "x" ? "width" : "height";
+
+    if (this._options?.position?.[edge] === "center") {
+      this._sprite![edge] =
+        (this._dimensions[dimension] - this._sprite![dimension]) / 2;
+    }
+
+    if (
+      this._options?.position?.[edge] === "left" ||
+      this._options?.position?.[edge] === "top"
+    ) {
+      this._sprite![edge] = 0;
+    }
+
+    if (
+      this._options?.position?.[edge] === "right" ||
+      this._options?.position?.[edge] === "bottom"
+    ) {
+      this._sprite![edge] =
+        this._dimensions[dimension] - this._sprite![dimension];
+    }
+  }
+
+  private _setPositionUnits(edge: "x" | "y") {
+    if (this._sprite && this._texture) {
+      const position = this._options?.position![edge] as
+        | PositionUnits
+        | PositionPixels;
+      const dimension = edge === "x" ? "width" : "height";
+
+      if (String(position).includes("%")) {
+        this._sprite[edge] =
+          (this._dimensions[dimension] * parseInt(String(position))) / 100;
+      } else {
+        this._sprite[edge] = parseInt(String(position));
+      }
+    }
+  }
+
+  private _setPosition() {
+    if (
+      ["left", "right", "center"].includes(this._options?.position?.x as string)
+    ) {
+      this._setEdgePosition("x");
+    } else {
+      this._setPositionUnits("x");
+    }
+
+    if (
+      ["top", "bottom", "center"].includes(this._options?.position?.y as string)
+    ) {
+      this._setEdgePosition("y");
+    } else {
+      this._setPositionUnits("y");
+    }
   }
 
   set(options: BackgroundImageOptions | null) {

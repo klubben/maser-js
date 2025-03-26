@@ -3,113 +3,94 @@ import { GameObject } from "@/gameObject";
 import { createStorybookGame } from "@/testUtils/createStorybookGame";
 import type { Meta, StoryObj } from "@storybook/html";
 
-const sizeOptions = [
-  "percentage",
-  "auto",
-  "cover",
-  "contain",
-  "resizeGameObject",
-];
 const meta: Meta = {
   title: "Example/GameObject",
   argTypes: {
+    src: {
+      control: { type: "text" },
+    },
     size: {
-      options: sizeOptions,
-      control: "select",
+      options: ["cover", "contain", "resizeGameObject", "custom"],
+      control: { type: "select" },
     },
-    vertical: {
-      control: "number",
+    sizeWidth: {
+      control: { type: "text" },
       if: {
         arg: "size",
-        eq: "percentage",
+        eq: "custom",
       },
     },
-    horizontal: {
-      control: "number",
+    sizeHeight: {
+      control: { type: "text" },
       if: {
         arg: "size",
-        eq: "percentage",
+        eq: "custom",
       },
     },
-    positionType: {
-      options: ["position", "number"],
-      control: "select",
+
+    x: {
+      options: ["center", "left", "right", "custom"],
+      control: { type: "select" },
     },
-    positionXPosition: {
+    positionX: {
+      control: { type: "text" },
       if: {
-        arg: "positionType",
-        eq: "position",
+        arg: "x",
+        eq: "custom",
       },
-      options: ["center", "left", "right"],
-      control: "select",
     },
-    positionYPosition: {
-      if: {
-        arg: "positionType",
-        eq: "position",
-      },
-      options: ["center", "top", "bottom"],
-      control: "select",
+
+    y: {
+      options: ["center", "top", "bottom", "custom"],
+      control: { type: "select" },
     },
-    positionXNumber: {
+    positionY: {
+      control: { type: "text" },
       if: {
-        arg: "positionType",
-        eq: "number",
+        arg: "y",
+        eq: "custom",
       },
-      control: "number",
-    },
-    positionYNumber: {
-      if: {
-        arg: "positionType",
-        eq: "number",
-      },
-      control: "number",
     },
   },
 };
 
 export default meta;
 
-export const BackgroundImage: StoryObj<{
-  src: BackgroundImageOptions["src"];
-  size: BackgroundImageOptions["size"];
-  vertical: number;
-  horizontal: number;
-  positionXPosition: "center" | "left" | "right";
-  positionYPosition: "center" | "top" | "bottom";
-  positionXNumber: number;
-  positionYNumber: number;
-  positionType: "position" | "number";
-}> = {
+export const BackgroundImage: StoryObj = {
   args: {
     src: "https://i.imgur.com/7dXhnur.png",
-    size: "auto",
+    size: "cover",
+    sizeWidth: "50%",
+    sizeHeight: "50%",
+    x: "center",
+    y: "center",
+    positionX: "50%",
+    positionY: "50%",
   },
   render: (args) => {
-    const { src } = args;
     return createStorybookGame((game) => {
       const options = {
-        src,
+        src: args.src,
         size: args.size,
+        position: {
+          x: args.x,
+          y: args.y,
+        },
       } as BackgroundImageOptions;
 
-      if (args.size === "percentage" && options.size === "percentage") {
-        options.vertical = args.vertical;
-        options.horizontal = args.horizontal;
-      }
-
-      if (args.positionType === "position") {
-        options.position = {
-          x: args.positionXPosition,
-          y: args.positionYPosition,
+      if (args.size === "custom") {
+        options.size = {
+          width: args.sizeWidth,
+          height: args.sizeHeight,
         };
       }
 
-      if (args.positionType === "number") {
-        options.position = {
-          x: args.positionXNumber,
-          y: args.positionYNumber,
-        };
+      if (args.x === "custom") {
+        options.position!.x = args.positionX;
+      }
+
+      if (args.y === "custom") {
+        options.position!.y = args.positionY;
       }
 
       const go = new GameObject({
