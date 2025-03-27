@@ -9,5 +9,8 @@ export const labels = {
     backgroundImage: {
       sprite: "/background-image/graphics",
     },
+    htmlText: {
+      container: "/html-text/container",
+    },
   },
 };

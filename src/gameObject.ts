@@ -8,6 +8,7 @@ import { Bounds } from "@/components/bounds";
 import { Crop } from "@/components/crop";
 import { Dimensions } from "@/components/dimensions";
 import { GameObjectEvents } from "@/components/gameObjectEvents";
+import { HtmlText } from "@/components/htmlText";
 import { Mask } from "@/components/mask";
 import { Transform } from "@/components/transform";
 import { clone, uniqueId } from "lodash";
@@ -26,6 +27,11 @@ type GameObjectProps = {
   backgroundImage?: BackgroundImageOptions;
   mask?: BackgroundImageOptions;
   isCropped?: boolean;
+  htmlText?: {
+    text: string | null;
+    style?: ConstructorParameters<typeof HtmlText>[0]["style"];
+    autoWrap?: boolean;
+  };
 };
 
 export class GameObject {
@@ -43,6 +49,7 @@ export class GameObject {
   readonly mask: Mask;
   readonly crop: Crop;
   readonly bounds: Bounds;
+  readonly htmlText: HtmlText;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -58,6 +65,9 @@ export class GameObject {
       backgroundImage = null,
       mask = null,
       isCropped = false,
+      htmlText = {
+        text: null,
+      },
     } = props || {};
 
     this._pixiContainer = new Container();
@@ -114,6 +124,15 @@ export class GameObject {
       dimensions: this.dimensions,
       transform: this.transform,
       container: this._pixiContainer,
+    });
+
+    this.htmlText = new HtmlText({
+      container: this._pixiContainer,
+      dimensions: this.dimensions,
+      events: this.events,
+      text: htmlText.text,
+      style: htmlText.style,
+      autoWrap: htmlText.autoWrap,
     });
   }
 
