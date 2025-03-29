@@ -8,8 +8,10 @@ import { Bounds } from "@/components/bounds";
 import { Crop } from "@/components/crop";
 import { Dimensions } from "@/components/dimensions";
 import { GameObjectEvents } from "@/components/gameObjectEvents";
+import { GameObjectInterface } from "@/components/gameObjectInterface";
 import { HtmlText } from "@/components/htmlText";
 import { Mask } from "@/components/mask";
+import { MouseEvents } from "@/components/mouseEvents";
 import { Transform } from "@/components/transform";
 import { clone, uniqueId } from "lodash";
 import { Container } from "pixi.js";
@@ -34,7 +36,7 @@ type GameObjectProps = {
   };
 };
 
-export class GameObject {
+export class GameObject implements GameObjectInterface {
   private readonly _pixiContainer: Container;
   private _children: GameObject[] = [];
   private _parent: GameObject | null = null;
@@ -50,6 +52,7 @@ export class GameObject {
   readonly crop: Crop;
   readonly bounds: Bounds;
   readonly htmlText: HtmlText;
+  readonly mouseEvents: MouseEvents;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -134,6 +137,13 @@ export class GameObject {
       style: htmlText.style,
       autoWrap: htmlText.autoWrap,
     });
+
+    this.mouseEvents = new MouseEvents({
+      container: this._pixiContainer,
+      events: this.events,
+      dimensions: this.dimensions,
+      gameObject: this,
+    });
   }
 
   get id() {
@@ -148,7 +158,7 @@ export class GameObject {
     return this._parent;
   }
 
-  private setParent(parent: GameObject) {
+  setParent(parent: GameObject) {
     this._parent?.removeChild(this);
     this._parent = parent;
   }
