@@ -1,5 +1,5 @@
-import { Dimensions } from "@/components/dimensions";
-import { labels } from "@/components/labels";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { labels } from "@/gameObjectComponents/labels";
 import { Assets, Container, Sprite, Texture } from "pixi.js";
 
 type PositionUnits = string;

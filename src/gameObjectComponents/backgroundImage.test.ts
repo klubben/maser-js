@@ -1,5 +1,5 @@
-import { labels } from "@/components/labels";
 import { GameObject } from "@/gameObject";
+import { labels } from "@/gameObjectComponents/labels";
 import { describe, expect, it } from "vitest";
 
 describe("BackgroundImage component test", () => {

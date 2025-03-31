@@ -1,9 +1,11 @@
+import { KeyboardEvents } from "@/gameComponents/keyboardEvents";
 import { GameObject } from "@/gameObject";
 import { Application } from "pixi.js";
 
 export class Game {
-  private readonly _pixiApp: Application;
+  private readonly _pixiApp: Application | null = null;
   private readonly root: GameObject;
+  readonly keyboardEvents: KeyboardEvents;
 
   constructor({
     onReady,
@@ -11,6 +13,7 @@ export class Game {
     height,
     background,
     parent,
+    renderer = "pixi",
   }: {
     renderer?: "pixi" | "headless";
     width: number;
@@ -27,25 +30,6 @@ export class Game {
     autofocus?: boolean;
     background?: number;
   }) {
-    this._pixiApp = new Application();
-    this._pixiApp
-      .init({
-        width,
-        height,
-        antialias: true,
-        resolution: window.devicePixelRatio,
-        backgroundColor: background ?? 0x05deff,
-        autoDensity: true,
-      })
-      .then(() => {
-        if (parent) {
-          parent.appendChild(this._pixiApp.canvas);
-        }
-        if (onReady) {
-          onReady(this);
-        }
-      });
-
     this.root = new GameObject({
       x: 0,
       y: 0,
@@ -53,7 +37,34 @@ export class Game {
       height,
       backgroundColor: background,
     });
-    this._pixiApp.stage.addChild(this.root.pixiContainer);
+
+    this.keyboardEvents = new KeyboardEvents();
+
+    if (renderer === "pixi") {
+      this._pixiApp = new Application();
+      this._pixiApp
+        .init({
+          width,
+          height,
+          antialias: true,
+          resolution: window.devicePixelRatio,
+          backgroundColor: background ?? 0x05deff,
+          autoDensity: true,
+        })
+        .then(() => {
+          if (parent) {
+            parent.appendChild(this._pixiApp!.canvas);
+          }
+          if (onReady) {
+            onReady(this);
+          }
+        });
+      this._pixiApp.stage.addChild(this.root.pixiContainer);
+    } else {
+      if (onReady) {
+        onReady(this);
+      }
+    }
   }
 
   get pixiApp() {

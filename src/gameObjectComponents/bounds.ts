@@ -1,5 +1,5 @@
-import { Dimensions } from "@/components/dimensions";
-import { Transform } from "@/components/transform";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { Transform } from "@/gameObjectComponents/transform";
 import { Bounds as BoundsType } from "@/type/bounds";
 import { Container, Point } from "pixi.js";
 

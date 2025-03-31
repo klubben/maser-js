@@ -1,5 +1,5 @@
-import { BackgroundImage } from "@/components/backgroundImage";
-import { labels } from "@/components/labels";
+import { BackgroundImage } from "@/gameObjectComponents/backgroundImage";
+import { labels } from "@/gameObjectComponents/labels";
 import { Sprite } from "pixi.js";
 
 export class Mask extends BackgroundImage {

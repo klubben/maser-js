@@ -1,1 +1,2 @@
-export { GameObject } from "./gameObject";
+export { GameObject } from "@/gameObject";
+export { Game } from "@/game";

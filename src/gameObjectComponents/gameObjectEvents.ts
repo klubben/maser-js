@@ -1,4 +1,4 @@
-import { Events } from "@/components/events";
+import { Events } from "@/gameObjectComponents/events";
 
 export class GameObjectEvents extends Events<{
   resize: undefined;

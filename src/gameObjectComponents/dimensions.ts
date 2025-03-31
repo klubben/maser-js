@@ -1,4 +1,4 @@
-import { GameObjectEvents } from "@/components/gameObjectEvents";
+import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
 
 export class Dimensions {
   private _width: number;

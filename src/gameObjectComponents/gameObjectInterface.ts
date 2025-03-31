@@ -1,13 +1,13 @@
-import { BackgroundColor } from "@/components/backgroundColor";
-import { BackgroundImage } from "@/components/backgroundImage";
-import { Border } from "@/components/border";
-import { Bounds } from "@/components/bounds";
-import { Crop } from "@/components/crop";
-import { Dimensions } from "@/components/dimensions";
-import { GameObjectEvents } from "@/components/gameObjectEvents";
-import { HtmlText } from "@/components/htmlText";
-import { Mask } from "@/components/mask";
-import { Transform } from "@/components/transform";
+import { BackgroundColor } from "@/gameObjectComponents/backgroundColor";
+import { BackgroundImage } from "@/gameObjectComponents/backgroundImage";
+import { Border } from "@/gameObjectComponents/border";
+import { Bounds } from "@/gameObjectComponents/bounds";
+import { Crop } from "@/gameObjectComponents/crop";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
+import { HtmlText } from "@/gameObjectComponents/htmlText";
+import { Mask } from "@/gameObjectComponents/mask";
+import { Transform } from "@/gameObjectComponents/transform";
 import { Container } from "pixi.js";
 
 export interface GameObjectInterface {

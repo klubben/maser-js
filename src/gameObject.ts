@@ -1,18 +1,18 @@
-import { BackgroundColor } from "@/components/backgroundColor";
+import { BackgroundColor } from "@/gameObjectComponents/backgroundColor";
 import {
   BackgroundImage,
   BackgroundImageOptions,
-} from "@/components/backgroundImage";
-import { Border } from "@/components/border";
-import { Bounds } from "@/components/bounds";
-import { Crop } from "@/components/crop";
-import { Dimensions } from "@/components/dimensions";
-import { GameObjectEvents } from "@/components/gameObjectEvents";
-import { GameObjectInterface } from "@/components/gameObjectInterface";
-import { HtmlText } from "@/components/htmlText";
-import { Mask } from "@/components/mask";
-import { MouseEvents } from "@/components/mouseEvents";
-import { Transform } from "@/components/transform";
+} from "@/gameObjectComponents/backgroundImage";
+import { Border } from "@/gameObjectComponents/border";
+import { Bounds } from "@/gameObjectComponents/bounds";
+import { Crop } from "@/gameObjectComponents/crop";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
+import { GameObjectInterface } from "@/gameObjectComponents/gameObjectInterface";
+import { HtmlText } from "@/gameObjectComponents/htmlText";
+import { Mask } from "@/gameObjectComponents/mask";
+import { MouseEvents } from "@/gameObjectComponents/mouseEvents";
+import { Transform } from "@/gameObjectComponents/transform";
 import { clone, uniqueId } from "lodash";
 import { Container } from "pixi.js";
 

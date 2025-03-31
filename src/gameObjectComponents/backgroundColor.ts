@@ -1,5 +1,5 @@
-import { Dimensions } from "@/components/dimensions";
-import { labels } from "@/components/labels";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { labels } from "@/gameObjectComponents/labels";
 import { Container, Graphics } from "pixi.js";
 
 export class BackgroundColor {

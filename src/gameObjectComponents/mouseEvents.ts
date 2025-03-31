@@ -1,6 +1,6 @@
-import { Dimensions } from "@/components/dimensions";
-import { GameObjectEvents } from "@/components/gameObjectEvents";
-import { GameObjectInterface } from "@/components/gameObjectInterface";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
+import { GameObjectInterface } from "@/gameObjectComponents/gameObjectInterface";
 import { Container, FederatedPointerEvent } from "pixi.js";
 
 type EventListener = (

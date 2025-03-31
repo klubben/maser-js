@@ -1,5 +1,5 @@
-import { BackgroundImageOptions } from "@/components/backgroundImage";
 import { GameObject } from "@/gameObject";
+import { BackgroundImageOptions } from "@/gameObjectComponents/backgroundImage";
 import { createStorybookGame } from "@/testUtils/createStorybookGame";
 import type { Meta, StoryObj } from "@storybook/html";
 

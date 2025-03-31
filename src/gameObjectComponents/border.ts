@@ -1,6 +1,6 @@
-import { Dimensions } from "@/components/dimensions";
-import { GameObjectEvents } from "@/components/gameObjectEvents";
-import { labels } from "@/components/labels";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
+import { labels } from "@/gameObjectComponents/labels";
 import { Container, Graphics } from "pixi.js";
 
 export class Border {

@@ -1,6 +1,6 @@
-import { Dimensions } from "@/components/dimensions";
-import { GameObjectEvents } from "@/components/gameObjectEvents";
 import { CropFilter } from "@/filters/cropFilter";
+import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
 import { Container, Filter } from "pixi.js";
 
 export class Crop {
