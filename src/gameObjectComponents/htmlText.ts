@@ -73,6 +73,23 @@ export class HtmlText {
     }
   }
 
+  private _horizontalAlign() {
+    const textContainer = this._getTextContainer();
+    switch (this._style?.align) {
+      case "center":
+        textContainer.x = this._dimensions.width / 2 - textContainer.width / 2;
+        break;
+
+      case "right":
+        textContainer.x = this._dimensions.width - textContainer.width;
+        break;
+
+      default:
+        textContainer.x = 0;
+        break;
+    }
+  }
+
   get autoWrap() {
     return this._autoWrap;
   }
@@ -99,6 +116,10 @@ export class HtmlText {
 
       if (value.verticalAlign) {
         this._updateVerticalAlign();
+      }
+
+      if (value.align) {
+        this._horizontalAlign();
       }
     }
   }
