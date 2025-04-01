@@ -4,7 +4,7 @@ import { parseHexColor } from "@/utils/parseHexColor";
 import type { Meta, StoryObj } from "@storybook/html";
 
 const meta: Meta = {
-  title: "Example/GameObject",
+  title: "GameObject",
   argTypes: {
     color: {
       control: "color",

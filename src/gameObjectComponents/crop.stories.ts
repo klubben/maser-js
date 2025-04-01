@@ -3,7 +3,7 @@ import { createStorybookGame } from "@/testUtils/createStorybookGame";
 import type { Meta, StoryObj } from "@storybook/html";
 
 const meta: Meta = {
-  title: "Example/GameObject",
+  title: "GameObject",
 };
 
 export default meta;
