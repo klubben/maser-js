@@ -122,3 +122,19 @@ export const Mask: StoryObj<typeof defaultArgs> = {
   args: defaultArgs,
   render: (args) => render(args, "mask"),
 };
+
+export const SimpleImage: StoryObj = {
+  render: () => {
+    return createStorybookGame((game) => {
+      const go = new GameObject({
+        backgroundImage: {
+          src: "https://i.imgur.com/7dXhnur.png",
+        },
+        width: 100,
+        height: 100,
+      });
+
+      game.append(go);
+    });
+  },
+};

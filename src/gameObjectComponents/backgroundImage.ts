@@ -169,9 +169,9 @@ export class BackgroundImage {
 
   private _setPositionUnits(edge: "x" | "y") {
     if (this._sprite && this._texture) {
-      const position = this._options?.position![edge] as
-        | PositionUnits
-        | PositionPixels;
+      const position = this._options?.position
+        ? (this._options?.position[edge] as PositionUnits | PositionPixels)
+        : 0;
       const dimension = edge === "x" ? "width" : "height";
 
       if (String(position).includes("%")) {
