@@ -10,6 +10,7 @@ export const createStorybookGame = (onReady?: (game: Game) => void) => {
     height: 480,
     parent: div,
     onReady,
+    resizeTo: window,
   });
 
   return div;

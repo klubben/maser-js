@@ -7,10 +7,6 @@ export const createTestGame = (): Game => {
     width: 800,
     height: 600,
     parent: div,
-    scale: {
-      mode: "fit",
-      autoCenter: "both",
-    },
     autofocus: false,
   });
 };

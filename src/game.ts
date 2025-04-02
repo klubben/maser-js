@@ -14,6 +14,7 @@ export class Game {
     background,
     parent,
     renderer = "pixi",
+    resizeTo,
   }: {
     renderer?: "pixi" | "headless";
     width: number;
@@ -21,14 +22,11 @@ export class Game {
     ticker?: {
       onTick: (cb: (delta: number) => void) => void;
     };
-    scale?: {
-      mode?: "fit";
-      autoCenter?: "both" | "horizontally" | "vertically";
-    };
     parent?: HTMLElement;
     onReady?: (game: Game) => void;
     autofocus?: boolean;
     background?: number;
+    resizeTo?: HTMLElement | Window;
   }) {
     this.root = new GameObject({
       x: 0,
@@ -50,6 +48,7 @@ export class Game {
           resolution: window.devicePixelRatio,
           backgroundColor: background ?? 0x05deff,
           autoDensity: true,
+          resizeTo,
         })
         .then(() => {
           if (parent) {
