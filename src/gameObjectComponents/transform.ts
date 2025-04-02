@@ -7,14 +7,23 @@ export class Transform {
     x,
     y,
     pixiContainer,
+    scale,
   }: {
     x: number;
     y: number;
     pixiContainer: Container;
+    scale: number | { x: number; y: number };
   }) {
     this._pixiContainer = pixiContainer;
     this.x = x;
     this.y = y;
+
+    if (typeof scale === "number") {
+      this.scale = scale;
+    } else {
+      this.scaleX = scale.x;
+      this.scaleY = scale.y;
+    }
   }
 
   getGlobalPosition() {
@@ -31,6 +40,30 @@ export class Transform {
 
     this.x = x - offset.x;
     this.y = y - offset.y;
+  }
+
+  set scale(value: number) {
+    this._pixiContainer.scale.set(value, value);
+  }
+
+  get scale() {
+    return this._pixiContainer.scale.x;
+  }
+
+  set scaleX(value: number) {
+    this._pixiContainer.scale.x = value;
+  }
+
+  set scaleY(value: number) {
+    this._pixiContainer.scale.y = value;
+  }
+
+  get scaleX() {
+    return this._pixiContainer.scale.x;
+  }
+
+  get scaleY() {
+    return this._pixiContainer.scale.y;
   }
 
   get x() {

@@ -19,6 +19,7 @@ import { Container } from "pixi.js";
 type GameObjectProps = {
   x?: number;
   y?: number;
+  scale?: number | { x: number; y: number };
   width?: number;
   height?: number;
   border?: {
@@ -41,7 +42,6 @@ export class GameObject implements GameObjectInterface {
   private _children: GameObject[] = [];
   private _parent: GameObject | null = null;
   private _id = uniqueId("game-object-");
-
   readonly events: GameObjectEvents;
   readonly transform: Transform;
   readonly dimensions: Dimensions;
@@ -58,6 +58,7 @@ export class GameObject implements GameObjectInterface {
     const {
       x = 0,
       y = 0,
+      scale = 1,
       width = 0,
       height = 0,
       border = {
@@ -82,6 +83,7 @@ export class GameObject implements GameObjectInterface {
       pixiContainer: this._pixiContainer,
       x,
       y,
+      scale,
     });
 
     this.dimensions = new Dimensions({
