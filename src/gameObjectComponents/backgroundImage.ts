@@ -169,7 +169,7 @@ export class BackgroundImage {
 
   private _setPositionUnits(edge: "x" | "y") {
     if (this._sprite && this._texture) {
-      const position = this._options?.position
+      const position = this._options?.position?.[edge]
         ? (this._options?.position[edge] as PositionUnits | PositionPixels)
         : 0;
       const dimension = edge === "x" ? "width" : "height";
