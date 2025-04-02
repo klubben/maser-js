@@ -1,7 +1,7 @@
 {
-  "name": "maserjs",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@klubben/maser-js",
+  "private": false,
+  "version": "0.0.1",
   "license": "0BSD",
   "type": "module",
   "scripts": {
@@ -15,6 +15,19 @@
     "prepare": "husky",
     "storybook": "storybook dev -p 6006 --ci",
     "build-storybook": "storybook build"
+  },
+  "repository": "https://github.com/klubben/maser-js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -43,6 +56,7 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1",
     "vite": "^6.0.9",
+    "vite-plugin-dts": "^4.5.3",
     "vite-plugin-glsl": "^1.3.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.8",
