@@ -10,7 +10,7 @@ describe("GameObject nesting", () => {
     expect(gameObject2.id).toBe("game-object-2");
   });
 
-  it("should be able to append other gameObjectes", () => {
+  it("should be able to append other gameObjects", () => {
     const gameObject = new GameObject();
     const gameObject2 = new GameObject();
 
@@ -65,5 +65,19 @@ describe("GameObject nesting", () => {
     expect(parents).toHaveLength(2);
     expect(parents[1]).toBe(gameObject);
     expect(parents[0]).toBe(gameObject2);
+  });
+
+  it("should append array of gameObjects", () => {
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject();
+    const gameObject3 = new GameObject();
+
+    expect(() => {
+      gameObject.append([gameObject2, gameObject3]);
+    }).not.toThrow();
+
+    expect(gameObject.getChildren()).toHaveLength(2);
+    expect(gameObject.getChildren()).toContain(gameObject2);
+    expect(gameObject.getChildren()).toContain(gameObject3);
   });
 });

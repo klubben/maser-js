@@ -177,7 +177,13 @@ export class GameObject implements GameObjectInterface {
     return parents;
   }
 
-  append(child: GameObject) {
+  append(children: GameObject[]): void;
+  append(child: GameObject): void;
+  append(child: GameObject | GameObject[]) {
+    if (Array.isArray(child)) {
+      child.forEach((c) => this.append(c));
+      return;
+    }
     child.setParent(this);
     this._children.push(child);
     this._pixiContainer.addChild(child._pixiContainer);
