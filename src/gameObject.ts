@@ -16,7 +16,7 @@ import { Transform } from "@/gameObjectComponents/transform";
 import { clone, uniqueId } from "lodash";
 import { Container } from "pixi.js";
 
-type GameObjectProps = {
+export type GameObjectProps = {
   x?: number;
   y?: number;
   scale?: number | { x: number; y: number };
