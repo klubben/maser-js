@@ -35,6 +35,7 @@ export type GameObjectProps = {
     style?: ConstructorParameters<typeof HtmlText>[0]["style"];
     autoWrap?: boolean;
   };
+  parent?: GameObject;
 };
 
 export class GameObject implements GameObjectInterface {
@@ -72,6 +73,7 @@ export class GameObject implements GameObjectInterface {
       htmlText = {
         text: null,
       },
+      parent,
     } = props || {};
 
     this._pixiContainer = new Container();
@@ -146,6 +148,10 @@ export class GameObject implements GameObjectInterface {
       dimensions: this.dimensions,
       gameObject: this,
     });
+
+    if (parent) {
+      parent.append(this);
+    }
   }
 
   get id() {

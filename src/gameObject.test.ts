@@ -80,4 +80,12 @@ describe("GameObject nesting", () => {
     expect(gameObject.getChildren()).toContain(gameObject2);
     expect(gameObject.getChildren()).toContain(gameObject3);
   });
+
+  it("should append to parent passed to constructor", () => {
+    const gameObject = new GameObject();
+    const gameObject2 = new GameObject({ parent: gameObject });
+
+    expect(gameObject.getChildren()).toHaveLength(1);
+    expect(gameObject.getChildren()).toContain(gameObject2);
+  });
 });
