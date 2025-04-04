@@ -35,13 +35,14 @@ export const SetPosition: StoryObj = {
       });
 
       let i = 0;
-      go.mouseEvents.on("click", () => {
+      go.mouseEvents.on("click", async () => {
         const target = i % 2 === 0 ? end : start;
         i++;
-        go.transform.setPosition({
+        await go.transform.setPositionAsync({
           ...target,
           duration: 200,
         });
+        go.backgroundColor.color = i % 2 === 0 ? 0x00ff00 : 0xff0000;
       });
 
       game.append(go);

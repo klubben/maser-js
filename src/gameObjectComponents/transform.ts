@@ -87,12 +87,14 @@ export class Transform {
     x,
     y,
     duration = 0,
+    delay,
     onComplete,
     easing = Easing.Linear.None,
   }: {
     x: number;
     y: number;
     duration?: number;
+    delay?: number;
     onComplete?: () => void;
     easing?: (t: number) => number;
   }) {
@@ -105,6 +107,7 @@ export class Transform {
 
     const tween = new Tween(this)
       .to({ x, y }, duration)
+      .delay(delay)
       .easing(easing)
       .onComplete(() => {
         onComplete?.();
@@ -117,5 +120,18 @@ export class Transform {
     };
 
     Ticker.shared.add(update);
+  }
+
+  async setPositionAsync(
+    props: Omit<Parameters<Transform["setPosition"]>[0], "onComplete">,
+  ) {
+    return new Promise<void>((resolve) => {
+      this.setPosition({
+        ...props,
+        onComplete: () => {
+          resolve();
+        },
+      });
+    });
   }
 }
