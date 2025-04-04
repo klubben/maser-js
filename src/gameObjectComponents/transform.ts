@@ -1,4 +1,5 @@
-import { Container } from "pixi.js";
+import { Easing, Tween } from "@tweenjs/tween.js";
+import { Container, Ticker } from "pixi.js";
 
 export class Transform {
   private _pixiContainer: Container;
@@ -80,5 +81,41 @@ export class Transform {
 
   set y(value: number) {
     this._pixiContainer.y = value;
+  }
+
+  setPosition({
+    x,
+    y,
+    duration = 0,
+    onComplete,
+    easing = Easing.Linear.None,
+  }: {
+    x: number;
+    y: number;
+    duration?: number;
+    onComplete?: () => void;
+    easing?: (t: number) => number;
+  }) {
+    if (duration === 0) {
+      this.x = x;
+      this.y = y;
+      onComplete?.();
+      return;
+    }
+
+    const tween = new Tween(this)
+      .to({ x, y }, duration)
+      .easing(easing)
+      .onComplete(() => {
+        onComplete?.();
+        Ticker.shared.remove(update);
+      })
+      .start();
+
+    const update = () => {
+      tween.update();
+    };
+
+    Ticker.shared.add(update);
   }
 }
