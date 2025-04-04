@@ -1,0 +1,47 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          path: prev
+          ref: ${{ github.event.before }}
+
+      - run: sudo apt-get install jq
+
+      - name: Check if version has changed
+        id: check_version
+        run: |
+          current_version=$(jq -r '.version' package.json)
+          previous_version=$(jq -r '.version' prev/package.json)
+          
+          if [ "$current_version" != "$previous_version" ]; then
+            echo "Version has changed"
+            echo "::set-output name=changed::true"
+          else
+            echo "Version has not changed"
+            echo "::set-output name=changed::false"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.check_version.outputs.changed == 'true'
+        with:
+          node-version: '23.5.0'
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+
+      - name: Build and Publish
+        if: steps.check_version.outputs.changed == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+        run: |
+          npm install -g yarn
+          yarn install --frozen-lockfile
+          yarn build
+          yarn publish --non-interactive
