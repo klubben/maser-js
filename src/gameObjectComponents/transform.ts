@@ -1,5 +1,11 @@
-import { Easing, Tween } from "@tweenjs/tween.js";
-import { Container, Ticker } from "pixi.js";
+import { transition, TransitionOptions } from "@/utils/transition";
+import { transitionAsync } from "@/utils/transitionAsync";
+import { Container } from "pixi.js";
+
+type Position = {
+  x: number;
+  y: number;
+};
 
 export class Transform {
   private _pixiContainer: Container;
@@ -83,55 +89,15 @@ export class Transform {
     this._pixiContainer.y = value;
   }
 
-  setPosition({
-    x,
-    y,
-    duration = 0,
-    delay,
-    onComplete,
-    easing = Easing.Linear.None,
-  }: {
-    x: number;
-    y: number;
-    duration?: number;
-    delay?: number;
-    onComplete?: () => void;
-    easing?: (t: number) => number;
-  }) {
-    if (duration === 0) {
-      this.x = x;
-      this.y = y;
-      onComplete?.();
-      return;
-    }
-
-    const tween = new Tween(this)
-      .to({ x, y }, duration)
-      .delay(delay)
-      .easing(easing)
-      .onComplete(() => {
-        onComplete?.();
-        Ticker.shared.remove(update);
-      })
-      .start();
-
-    const update = () => {
-      tween.update();
-    };
-
-    Ticker.shared.add(update);
+  setPosition({ x, y, ...options }: Position & TransitionOptions): void {
+    return transition(this as Position, { x, y }, options);
   }
 
-  async setPositionAsync(
-    props: Omit<Parameters<Transform["setPosition"]>[0], "onComplete">,
-  ) {
-    return new Promise<void>((resolve) => {
-      this.setPosition({
-        ...props,
-        onComplete: () => {
-          resolve();
-        },
-      });
-    });
+  setPositionAsync({
+    x,
+    y,
+    ...options
+  }: Position & TransitionOptions): Promise<void> {
+    return transitionAsync(this as Position, { x, y }, options);
   }
 }

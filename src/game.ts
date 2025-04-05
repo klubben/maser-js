@@ -1,10 +1,11 @@
 import { KeyboardEvents } from "@/gameComponents/keyboardEvents";
 import { GameObject } from "@/gameObject";
+import { IGame } from "@/iGame";
 import { Application } from "pixi.js";
 
-export class Game {
+export class Game implements IGame {
   private readonly _pixiApp: Application | null = null;
-  private readonly root: GameObject;
+  private readonly _root: GameObject;
   readonly keyboardEvents: KeyboardEvents;
 
   constructor({
@@ -28,7 +29,7 @@ export class Game {
     background?: number;
     resizeTo?: HTMLElement | Window;
   }) {
-    this.root = new GameObject({
+    this._root = new GameObject({
       x: 0,
       y: 0,
       width,
@@ -58,7 +59,7 @@ export class Game {
             onReady(this);
           }
         });
-      this._pixiApp.stage.addChild(this.root.pixiContainer);
+      this._pixiApp.stage.addChild(this._root.pixiContainer);
     } else {
       if (onReady) {
         onReady(this);
@@ -71,6 +72,6 @@ export class Game {
   }
 
   append(child: GameObject) {
-    this.root.append(child);
+    this._root.append(child);
   }
 }

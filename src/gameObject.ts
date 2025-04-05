@@ -1,3 +1,4 @@
+import { Alpha } from "@/gameObjectComponents/alpha";
 import { BackgroundColor } from "@/gameObjectComponents/backgroundColor";
 import {
   BackgroundImage,
@@ -13,6 +14,7 @@ import { HtmlText } from "@/gameObjectComponents/htmlText";
 import { Mask } from "@/gameObjectComponents/mask";
 import { MouseEvents } from "@/gameObjectComponents/mouseEvents";
 import { Transform } from "@/gameObjectComponents/transform";
+import { IGame } from "@/iGame";
 import { clone, uniqueId } from "lodash";
 import { Container } from "pixi.js";
 
@@ -35,7 +37,8 @@ export type GameObjectProps = {
     style?: ConstructorParameters<typeof HtmlText>[0]["style"];
     autoWrap?: boolean;
   };
-  parent?: GameObject;
+  parent?: GameObject | IGame;
+  alpha?: number;
 };
 
 export class GameObject implements GameObjectInterface {
@@ -54,6 +57,7 @@ export class GameObject implements GameObjectInterface {
   readonly bounds: Bounds;
   readonly htmlText: HtmlText;
   readonly mouseEvents: MouseEvents;
+  readonly alpha: Alpha;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -74,6 +78,7 @@ export class GameObject implements GameObjectInterface {
         text: null,
       },
       parent,
+      alpha = 1,
     } = props || {};
 
     this._pixiContainer = new Container();
@@ -147,6 +152,11 @@ export class GameObject implements GameObjectInterface {
       events: this.events,
       dimensions: this.dimensions,
       gameObject: this,
+    });
+
+    this.alpha = new Alpha({
+      container: this._pixiContainer,
+      alpha,
     });
 
     if (parent) {
