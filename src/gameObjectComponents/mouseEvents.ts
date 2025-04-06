@@ -107,4 +107,24 @@ export class MouseEvents {
       this._container.eventMode = "none";
     }
   }
+
+  static on(
+    target: GameObjectInterface[],
+    event: MouseEvent,
+    listener: EventListener,
+  ) {
+    target.forEach((t) => {
+      t.mouseEvents.on(event, listener);
+    });
+  }
+
+  static off(
+    target: GameObjectInterface[],
+    event: MouseEvent,
+    listener: EventListener,
+  ) {
+    target.forEach((t) => {
+      t.mouseEvents.off(event, listener);
+    });
+  }
 }

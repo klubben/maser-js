@@ -39,6 +39,7 @@ export type GameObjectProps = {
   };
   parent?: GameObject | IGame;
   alpha?: number;
+  zIndex?: number;
 };
 
 export class GameObject implements GameObjectInterface {
@@ -79,6 +80,7 @@ export class GameObject implements GameObjectInterface {
       },
       parent,
       alpha = 1,
+      zIndex,
     } = props || {};
 
     this._pixiContainer = new Container();
@@ -91,6 +93,7 @@ export class GameObject implements GameObjectInterface {
       x,
       y,
       scale,
+      zIndex,
     });
 
     this.dimensions = new Dimensions({

@@ -71,7 +71,15 @@ export class Game implements IGame {
     return this._pixiApp;
   }
 
-  append(child: GameObject) {
+  private _append(child: GameObject) {
     this._root.append(child);
+  }
+
+  append(child: GameObject | GameObject[]) {
+    if (Array.isArray(child)) {
+      child.forEach((c) => this._append(c));
+    } else {
+      this._append(child);
+    }
   }
 }

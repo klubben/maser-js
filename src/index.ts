@@ -7,3 +7,8 @@ export type GameObjectPropsPick<P extends keyof GameObjectProps> = Pick<
   GameObjectProps,
   P
 >;
+
+export {
+  MouseEvents,
+  type MouseEvent,
+} from "@/gameObjectComponents/mouseEvents";

@@ -15,15 +15,21 @@ export class Transform {
     y,
     pixiContainer,
     scale,
+    zIndex,
   }: {
     x: number;
     y: number;
     pixiContainer: Container;
     scale: number | { x: number; y: number };
+    zIndex?: number;
   }) {
     this._pixiContainer = pixiContainer;
     this.x = x;
     this.y = y;
+
+    if (zIndex !== undefined) {
+      this.zIndex = zIndex;
+    }
 
     if (typeof scale === "number") {
       this.scale = scale;
@@ -99,5 +105,13 @@ export class Transform {
     ...options
   }: Position & TransitionOptions): Promise<void> {
     return transitionAsync(this as Position, { x, y }, options);
+  }
+
+  set zIndex(zIndex: number) {
+    this._pixiContainer.zIndex = zIndex;
+  }
+
+  get zIndex() {
+    return this._pixiContainer.zIndex;
   }
 }

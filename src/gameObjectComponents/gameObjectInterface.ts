@@ -7,6 +7,7 @@ import { Dimensions } from "@/gameObjectComponents/dimensions";
 import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
 import { HtmlText } from "@/gameObjectComponents/htmlText";
 import { Mask } from "@/gameObjectComponents/mask";
+import { MouseEvents } from "@/gameObjectComponents/mouseEvents";
 import { Transform } from "@/gameObjectComponents/transform";
 import { Container } from "pixi.js";
 
@@ -21,6 +22,7 @@ export interface GameObjectInterface {
   crop: Crop;
   bounds: Bounds;
   htmlText: HtmlText;
+  mouseEvents: MouseEvents;
   readonly id: string;
   readonly pixiContainer: Container;
 
