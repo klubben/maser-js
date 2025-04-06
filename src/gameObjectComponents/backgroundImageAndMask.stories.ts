@@ -51,6 +51,9 @@ const meta: Meta = {
         eq: "custom",
       },
     },
+    isCropped: {
+      control: { type: "boolean" },
+    },
   },
 };
 
@@ -65,6 +68,7 @@ const defaultArgs = {
   y: "center",
   positionX: "50%",
   positionY: "50%",
+  isCropped: false,
 };
 
 const render = (
@@ -107,6 +111,7 @@ const render = (
       height: 100,
       x: 100,
       y: 100,
+      isCropped: args.isCropped,
     });
 
     game.append(go);

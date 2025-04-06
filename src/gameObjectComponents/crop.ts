@@ -1,7 +1,7 @@
 import { CropFilter } from "@/filters/cropFilter";
 import { Dimensions } from "@/gameObjectComponents/dimensions";
 import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
-import { Container, Filter } from "pixi.js";
+import { Container, Filter, Rectangle } from "pixi.js";
 
 export class Crop {
   private _isActive;
@@ -57,6 +57,13 @@ export class Crop {
       const objectY = 0;
       const objectW = this._dimensions.width;
       const objectH = this._dimensions.height;
+
+      this._container.filterArea = new Rectangle(
+        0,
+        0,
+        this._dimensions.width,
+        this._dimensions.height,
+      );
 
       this._filter.update({
         x: (objectX - bounds.minX) / (bounds.maxX - bounds.minX),
