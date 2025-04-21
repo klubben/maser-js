@@ -8,6 +8,7 @@ import { Border } from "@/gameObjectComponents/border";
 import { Bounds } from "@/gameObjectComponents/bounds";
 import { Crop } from "@/gameObjectComponents/crop";
 import { Dimensions } from "@/gameObjectComponents/dimensions";
+import { Filter } from "@/gameObjectComponents/filter";
 import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
 import { GameObjectInterface } from "@/gameObjectComponents/gameObjectInterface";
 import { HtmlText } from "@/gameObjectComponents/htmlText";
@@ -47,6 +48,7 @@ export class GameObject implements GameObjectInterface {
   private _children: GameObject[] = [];
   private _parent: GameObject | null = null;
   private _id = uniqueId("game-object-");
+
   readonly events: GameObjectEvents;
   readonly transform: Transform;
   readonly dimensions: Dimensions;
@@ -59,6 +61,7 @@ export class GameObject implements GameObjectInterface {
   readonly htmlText: HtmlText;
   readonly mouseEvents: MouseEvents;
   readonly alpha: Alpha;
+  readonly filters: Filter;
 
   constructor(props?: GameObjectProps) {
     const {
@@ -160,6 +163,10 @@ export class GameObject implements GameObjectInterface {
     this.alpha = new Alpha({
       container: this._pixiContainer,
       alpha,
+    });
+
+    this.filters = new Filter({
+      container: this._pixiContainer,
     });
 
     if (parent) {

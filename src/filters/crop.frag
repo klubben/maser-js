@@ -6,11 +6,6 @@ in vec2 vFilterCoord;
 uniform sampler2D uTexture;
 uniform float uTime;
 
-uniform float ux;
-uniform float uy;
-uniform float uw;
-uniform float uh;
-
 void main(void)
 {
     if (

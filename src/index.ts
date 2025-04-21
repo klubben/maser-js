@@ -12,3 +12,6 @@ export {
   MouseEvents,
   type MouseEvent,
 } from "@/gameObjectComponents/mouseEvents";
+
+export { AbstractFilter } from "@/filters/abstractFilter";
+export * as defaultVertexShader from "@/filters/default.vert";
