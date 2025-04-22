@@ -17,7 +17,7 @@ import { MouseEvents } from "@/gameObjectComponents/mouseEvents";
 import { Transform } from "@/gameObjectComponents/transform";
 import { IGame } from "@/iGame";
 import { clone, uniqueId } from "lodash";
-import { Container } from "pixi.js";
+import { Container, Rectangle } from "pixi.js";
 
 export type GameObjectProps = {
   x?: number;
@@ -172,6 +172,19 @@ export class GameObject implements GameObjectInterface {
     if (parent) {
       parent.append(this);
     }
+
+    this.events.on("resize", this.update.bind(this));
+    this.pixiContainer.on("added", this.update.bind(this));
+    this.update();
+  }
+
+  private update() {
+    this._pixiContainer.filterArea = new Rectangle(
+      0,
+      0,
+      this.dimensions.width,
+      this.dimensions.height,
+    );
   }
 
   get id() {

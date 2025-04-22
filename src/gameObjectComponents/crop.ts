@@ -2,7 +2,7 @@ import { CropFilter } from "@/filters/cropFilter";
 import { Dimensions } from "@/gameObjectComponents/dimensions";
 import { GameObjectEvents } from "@/gameObjectComponents/gameObjectEvents";
 import { addFilterToPixiContainer } from "@/utils/addFilterToPixiContainer";
-import { Container, Rectangle } from "pixi.js";
+import { Container } from "pixi.js";
 
 export class Crop {
   private _isActive;
@@ -37,13 +37,6 @@ export class Crop {
         addFilterToPixiContainer(this._container, this._filter);
         this._filter.enable();
       }
-
-      this._container.filterArea = new Rectangle(
-        0,
-        0,
-        this._dimensions.width,
-        this._dimensions.height,
-      );
     } else {
       if (this._filter) {
         this._filter.disable();
